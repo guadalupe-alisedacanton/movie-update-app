@@ -1,0 +1,4 @@
+String omdbKey = "d70b227c";
+    	String omdbUrl = "http://www.omdbapi.com/?i=tt3896198&apikey=d70b227c";
+    	//String key = "1D81BECF-C206-4061-91CF-DFE49872C08A";
+    	//String vendorKey = "31dd5ae1-9562-4b1f-b718-f8b1a3a97492";
