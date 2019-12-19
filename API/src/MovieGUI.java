@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -14,7 +15,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.SwingConstants;
 
-public class MovieGUI {
+public class MovieGUIFramework {
 
 	private JFrame frame;
 	private JTable moviesList;
@@ -26,6 +27,9 @@ public class MovieGUI {
 	private JLabel summary;
 	private JLabel suggestions;
 	private JTable suggestionList;
+	private JButton temp;
+	private JButton back;
+	private JLabel background;
 
 	/**
 	 * Launch the application.
@@ -34,7 +38,7 @@ public class MovieGUI {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MovieGUI window = new MovieGUI();
+					MovieGUIFramework window = new MovieGUIFramework();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -46,7 +50,7 @@ public class MovieGUI {
 	/**
 	 * Create the application.
 	 */
-	public MovieGUI() {
+	public MovieGUIFramework() {
 		initialize();
 	}
 
@@ -54,89 +58,60 @@ public class MovieGUI {
 	 * Initialize the contents of the frame.
 	 */
 	private void homeScreen() {
-		mainTitle = new JLabel("Recent Movies ");
-		mainTitle.setHorizontalAlignment(SwingConstants.CENTER);
-		mainTitle.setFont(new Font("Yu Gothic", Font.PLAIN, 44));
-		mainTitle.setBounds(353, 43, 349, 84);
-		frame.getContentPane().add(mainTitle);
-		
+		mainTitle = new JLabel();
+		mainTitle.setBackground(Color.LIGHT_GRAY);
 		moviesList = new JTable();
-		moviesList.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				
-			}
-		});
-		moviesList.setBounds(52, 154, 878, 603);
-		frame.getContentPane().add(moviesList);
+		temp = new JButton();
 		
-		JButton temp = new JButton("See More...");
-		temp.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-//				if (moviesList.getSelectedRowCount() != 0) {
-					selectedMovieInfo();
-//				}
-			}
-		});
-		temp.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		temp.setBounds(423, 120, 160, 25);
-		frame.getContentPane().add(temp);
+		resetHome();
 	}
 	
 	private void selectedMovieInfo() {
+		temp.disable();
+		temp.setVisible(false);
+		
 		mainTitle.setText("Movie Name");
 		
 		moviesList.setVisible(false);
 		generalInfo = new JLabel("Genre: " + " | Release Date: " + " | Movie Length: ;;");
 		generalInfo.setHorizontalAlignment(SwingConstants.CENTER);
 		generalInfo.setFont(new Font("Yu Gothic", Font.PLAIN, 25));
-		generalInfo.setBounds(100, 43, 800, 250);
+		generalInfo.setBounds(100, 32, 800, 250);
 		frame.getContentPane().add(generalInfo);
-		
-//		genre = new JLabel("Genre: ");
-//		genre.setHorizontalAlignment(SwingConstants.LEFT);
-//		genre.setFont(new Font("Yu Gothic", Font.PLAIN, 25));
-//		genre.setBounds(100, 43, 349, 250);
-//		frame.getContentPane().add(genre);
-//		
-//		releaseDate = new JLabel("Release Date: ");
-//		releaseDate.setHorizontalAlignment(SwingConstants.LEFT);
-//		releaseDate.setFont(new Font("Yu Gothic", Font.PLAIN, 25));
-//		releaseDate.setBounds(353, 43, 349, 250);
-//		frame.getContentPane().add(releaseDate);
-//		
-//		runtime = new JLabel("Movie Length: ");
-//		runtime.setHorizontalAlignment(SwingConstants.LEFT);
-//		runtime.setFont(new Font("Yu Gothic", Font.PLAIN, 25));
-//		runtime.setBounds(353, 43, 349, 250);
-//		frame.getContentPane().add(runtime);
+		generalInfo.setVisible(true);
 		
 		summary = new JLabel("Summary: ");
 		summary.setHorizontalAlignment(SwingConstants.LEFT);
 		summary.setFont(new Font("Yu Gothic", Font.PLAIN, 25));
-		summary.setBounds(100, 80, 800, 400);
+		summary.setBounds(100, 60, 800, 400);
 		frame.getContentPane().add(summary);
-		
-		int bounds = summary.getBounds().height + summary.getBounds().y;
+		summary.setVisible(true);
+
 		
 		suggestions = new JLabel("Similar Movies by Genre:  ");
 		suggestions.setHorizontalAlignment(SwingConstants.LEFT);
 		suggestions.setFont(new Font("Yu Gothic", Font.PLAIN, 25));
-		suggestions.setBounds(100, 350, 349, 500);
+		suggestions.setBounds(100, 300, 349, 500);
 		frame.getContentPane().add(suggestions);
+		suggestions.setVisible(true);
+
 		
 		suggestionList = new JTable();
-		suggestionList.setBounds(100, 525, 349, 250);		
-		
-		JButton home = new JButton("<-");
-		home.addActionListener(new ActionListener() {
+		suggestionList.setBounds(100, 610, 785, 400);
+		frame.getContentPane().add(suggestionList);
+		suggestionList.setVisible(true);
+
+
+		back = new JButton("<--");
+		back.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				homeScreen();
+				resetHome();
+				resetMovieInfo();
 			}
 		});
-		home.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		home.setBounds(423, 120, 160, 25);
-		frame.getContentPane().add(home);
+		back.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		back.setBounds(100, 45, 75, 50);
+		frame.getContentPane().add(back);
 		
 	}
 	
@@ -148,5 +123,56 @@ public class MovieGUI {
 		
 		homeScreen();
 		
+	}
+	
+	private void resetMovieInfo() {
+		back.disable();
+		back.setVisible(false);
+		
+		generalInfo.setVisible(false);
+		summary.setVisible(false);
+		suggestions.setVisible(false);
+		suggestionList.setVisible(false);
+	}
+	
+	private void resetHome() {
+		mainTitle.setText("Recent Movies");
+		mainTitle.setHorizontalAlignment(SwingConstants.CENTER);
+		mainTitle.setFont(new Font("Yu Gothic", Font.PLAIN, 44));
+		mainTitle.setBounds(12, 43, 958, 84);
+		frame.getContentPane().add(mainTitle);
+		
+		temp.setText("See More...");
+		temp.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+//				if (moviesList.getSelectedRowCount() != 0) {
+					selectedMovieInfo();
+//				}
+			}
+		});
+		temp.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		temp.setBounds(52, 43, 160, 25);
+		frame.getContentPane().add(temp);
+		temp.setVisible(true);
+		
+//		TableItem tablee = new TableItem("something");
+//		tablee.getBounds(moviesList.getBounds());
+		
+		moviesList.setVisible(true);
+		moviesList.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				
+			}
+		});
+		moviesList.setBounds(52, 154, 878, 745);
+		frame.getContentPane().add(moviesList);
+////		moviesList.add(temp);	
+//		moviesList.addColumn(aColumn);
+
+	}
+	
+	private String tableInfo() {
+		return "name" + "\n" + "Release Date: " + "\n" + "Genre: ";
 	}
 }
