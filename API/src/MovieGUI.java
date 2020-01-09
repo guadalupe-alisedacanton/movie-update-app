@@ -13,11 +13,17 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.SwingConstants;
+import java.awt.event.WindowEvent;
 
-public class MovieGUIFramework {
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.border.LineBorder;
+
+public class MovieGUI {
 
 	private JFrame frame;
+	private DefaultTableModel tableModel; 
+	private String [] arr;
 	private JTable moviesList;
 	private JLabel mainTitle;
 	private JLabel generalInfo;
@@ -30,6 +36,8 @@ public class MovieGUIFramework {
 	private JButton temp;
 	private JButton back;
 	private JLabel background;
+	private static MovieGUI window;
+
 
 	/**
 	 * Launch the application.
@@ -38,8 +46,9 @@ public class MovieGUIFramework {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MovieGUIFramework window = new MovieGUIFramework();
+					window = new MovieGUI();
 					window.frame.setVisible(true);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -50,7 +59,7 @@ public class MovieGUIFramework {
 	/**
 	 * Create the application.
 	 */
-	public MovieGUIFramework() {
+	public MovieGUI() {
 		initialize();
 	}
 
@@ -60,10 +69,20 @@ public class MovieGUIFramework {
 	private void homeScreen() {
 		mainTitle = new JLabel();
 		mainTitle.setBackground(Color.LIGHT_GRAY);
-		moviesList = new JTable();
 		temp = new JButton();
 		
-		resetHome();
+		tableModel = new DefaultTableModel();
+		moviesList = new JTable(tableModel);
+		moviesList.setFont(new Font("Yu Gothic", Font.PLAIN, 25));
+		moviesList.setRowHeight(110);
+		
+		arr = new String[5];
+		arr[0] = "   " + "Something";
+		
+		tableModel.addColumn("Movies!");
+		tableModel.insertRow(0, arr);
+		
+		visibleHome();
 	}
 	
 	private void selectedMovieInfo() {
@@ -71,6 +90,7 @@ public class MovieGUIFramework {
 		temp.setVisible(false);
 		
 		mainTitle.setText("Movie Name");
+		frame.getContentPane().add(mainTitle);
 		
 		moviesList.setVisible(false);
 		generalInfo = new JLabel("Genre: " + " | Release Date: " + " | Movie Length: ;;");
@@ -105,8 +125,9 @@ public class MovieGUIFramework {
 		back = new JButton("<--");
 		back.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				resetHome();
-				resetMovieInfo();
+				frame.getContentPane().removeAll();
+				frame.repaint();
+				visibleHome();
 			}
 		});
 		back.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -119,13 +140,13 @@ public class MovieGUIFramework {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 1000, 1000);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
+		frame.getContentPane().setLayout(null);		
 		
 		homeScreen();
 		
 	}
 	
-	private void resetMovieInfo() {
+	private void invisibleMovieInfo() {
 		back.disable();
 		back.setVisible(false);
 		
@@ -135,7 +156,7 @@ public class MovieGUIFramework {
 		suggestionList.setVisible(false);
 	}
 	
-	private void resetHome() {
+	private void visibleHome() {
 		mainTitle.setText("Recent Movies");
 		mainTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		mainTitle.setFont(new Font("Yu Gothic", Font.PLAIN, 44));
@@ -155,9 +176,6 @@ public class MovieGUIFramework {
 		frame.getContentPane().add(temp);
 		temp.setVisible(true);
 		
-//		TableItem tablee = new TableItem("something");
-//		tablee.getBounds(moviesList.getBounds());
-		
 		moviesList.setVisible(true);
 		moviesList.addMouseListener(new MouseAdapter() {
 			@Override
@@ -167,10 +185,8 @@ public class MovieGUIFramework {
 		});
 		moviesList.setBounds(52, 154, 878, 745);
 		frame.getContentPane().add(moviesList);
-////		moviesList.add(temp);	
-//		moviesList.addColumn(aColumn);
-
 	}
+	
 	
 	private String tableInfo() {
 		return "name" + "\n" + "Release Date: " + "\n" + "Genre: ";
