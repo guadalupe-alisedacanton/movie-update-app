@@ -1,13 +1,17 @@
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 import java.awt.Font;
+import java.awt.GridLayout;
+
 import javax.swing.JScrollBar;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -17,13 +21,21 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.border.LineBorder;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.DefaultTableCellRenderer;
+
 
 public class MovieGUI {
 
 	private JFrame frame;
 	private DefaultTableModel tableModel; 
-	private String [] arr;
+	private String [] movieNames = {"Scooby-Doo", "The 3 Stooges", "Romeo & Juliet", "It", "Terminator"};
+	private String [] releaseDates = {"2005", "2009", "1996", "2018", "1984"};
+	private String [] genres = {"Mystery", "Comedy", "Romance", "Horror", "Sci-fi"};
+	private String [] runtimes = {"Short", "Too long", "2 hours", "2.5 hours", "Moderate"};
+	private String [] summaries = {"4 kids and dog solving mysteries", "3 stupid people", "Sad love", "Scary clown", "Cyborg assassin"};
+	//recommended list
+	
 	private JTable moviesList;
 	private JLabel mainTitle;
 	private JLabel generalInfo;
@@ -31,6 +43,7 @@ public class MovieGUI {
 	private JLabel releaseDate;
 	private JLabel runtime;
 	private JLabel summary;
+	private JTextArea summaryInfo;
 	private JLabel suggestions;
 	private JTable suggestionList;
 	private JButton temp;
@@ -76,37 +89,48 @@ public class MovieGUI {
 		moviesList.setFont(new Font("Yu Gothic", Font.PLAIN, 25));
 		moviesList.setRowHeight(110);
 		
-		arr = new String[5];
-		arr[0] = "   " + "Something";
-		
 		tableModel.addColumn("Movies!");
-		tableModel.insertRow(0, arr);
-		
+		tableModel.setRowCount(movieNames.length);
+		for (int i = 0; i < movieNames.length; i++) {
+			tableModel.setValueAt("   " + movieNames[i] + ", " + genres[i] + ", " + releaseDates[i], i, 0);
+		}
+
 		visibleHome();
 	}
 	
-	private void selectedMovieInfo() {
+	private void selectedMovieInfo(int rowIndex) {
 		temp.disable();
 		temp.setVisible(false);
 		
-		mainTitle.setText("Movie Name");
+		mainTitle.setText(movieNames[rowIndex]);
 		frame.getContentPane().add(mainTitle);
 		
 		moviesList.setVisible(false);
-		generalInfo = new JLabel("Genre: " + " | Release Date: " + " | Movie Length: ;;");
+		generalInfo = new JLabel("Genre: " + genres[rowIndex] + " | Release Date: " + releaseDates[rowIndex] + 
+				" | Movie Length: " + runtimes[rowIndex]);
 		generalInfo.setHorizontalAlignment(SwingConstants.CENTER);
 		generalInfo.setFont(new Font("Yu Gothic", Font.PLAIN, 25));
 		generalInfo.setBounds(100, 32, 800, 250);
 		frame.getContentPane().add(generalInfo);
 		generalInfo.setVisible(true);
 		
-		summary = new JLabel("Summary: ");
+		summary = new JLabel("Summary:");
 		summary.setHorizontalAlignment(SwingConstants.LEFT);
 		summary.setFont(new Font("Yu Gothic", Font.PLAIN, 25));
 		summary.setBounds(100, 60, 800, 400);
 		frame.getContentPane().add(summary);
 		summary.setVisible(true);
-
+		
+		summaryInfo = new JTextArea(summaries[rowIndex] + "kjfsadhfoief fjoewjg something really iii ijforjgrleagoremgoregapomrpoeg   pofjrepog krpgkpoe kpo");
+//		summaryInfo.setHorizontalAlignment(SwingConstants.LEFT);
+		summaryInfo.setFont(new Font("Yu Gothic", Font.PLAIN, 25));
+		summaryInfo.setBounds(100, 290, 800, 200);
+		frame.getContentPane().add(summaryInfo);
+		summaryInfo.setVisible(true);
+		summaryInfo.setWrapStyleWord(true);
+		summaryInfo.setLineWrap(true);
+		summaryInfo.setBackground(null);
+		
 		
 		suggestions = new JLabel("Similar Movies by Genre:  ");
 		suggestions.setHorizontalAlignment(SwingConstants.LEFT);
@@ -166,9 +190,9 @@ public class MovieGUI {
 		temp.setText("See More...");
 		temp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-//				if (moviesList.getSelectedRowCount() != 0) {
-					selectedMovieInfo();
-//				}
+				if (moviesList.getSelectedRowCount() != 0) {
+					selectedMovieInfo(moviesList.getSelectedRow());
+				}
 			}
 		});
 		temp.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -176,13 +200,18 @@ public class MovieGUI {
 		frame.getContentPane().add(temp);
 		temp.setVisible(true);
 		
+		
 		moviesList.setVisible(true);
-		moviesList.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				
-			}
-		});
+//		moviesList.setEnabled(false);
+//		moviesList.addMouseListener(new MouseAdapter() {
+//			@Override
+//			public void mouseClicked(MouseEvent evt) {
+//				if (evt.getClickCount() == 2 && moviesList.getSelectedRowCount() != 0) {
+//					selectedMovieInfo(moviesList.getSelectedRow());
+//					
+//		        }
+//			}
+//		});
 		moviesList.setBounds(52, 154, 878, 745);
 		frame.getContentPane().add(moviesList);
 	}
