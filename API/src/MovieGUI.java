@@ -1,4 +1,7 @@
 import java.awt.Color;
+import java.util.List;
+
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -13,9 +16,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+
 import javax.swing.SwingConstants;
 
-public class MovieGUIFramework {
+public class MovieGUI {
 
 	private JFrame frame;
 	private JTable moviesList;
@@ -30,28 +35,21 @@ public class MovieGUIFramework {
 	private JButton temp;
 	private JButton back;
 	private JLabel background;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MovieGUIFramework window = new MovieGUIFramework();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
+	
+	private JLabel movieTitle;
+	
+	private List<Movie> movies;
+	
 	/**
 	 * Create the application.
 	 */
-	public MovieGUIFramework() {
+	public MovieGUI(List<Movie> movies) {
+		this.movies = movies;
 		initialize();
+	}
+	
+	public void start() {
+		this.frame.setVisible(true);
 	}
 
 	/**
@@ -62,6 +60,7 @@ public class MovieGUIFramework {
 		mainTitle.setBackground(Color.LIGHT_GRAY);
 		moviesList = new JTable();
 		temp = new JButton();
+		
 		
 		resetHome();
 	}

@@ -273,7 +273,7 @@ public class Main {
 	  
 	  return genreIds;
 }
-  public static void main(String[] args) {
+  public ArrayList<Movie> setupMovieList() {
 	//List of now playing movies and upcoming movies	  
 	  ArrayList<Movie> movies = new ArrayList<>();
 	  HashMap<String, Integer> genreIds = retrieveGenre();
@@ -349,7 +349,9 @@ public class Main {
 	  } finally {
 		  connection.disconnect();
 	  }
-  
+	  
+	  return movies;
   	}  
+  	
 }
 

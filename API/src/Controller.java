@@ -1,15 +1,13 @@
-import java.util.ArrayList;
-
-import javax.swing.JOptionPane;
+import java.util.List;
 
 public class Controller {
 	private Main mainCode;
-	private MovieGUI view;
 	
-	public Controller(Main mainCode, MovieGUI view) {
+	public Controller(Main mainCode) {
 		this.mainCode = mainCode;
-		this.view = view;
-		
 	}
-
+	
+	public List<Movie> fetchMovieList() {
+		return mainCode.setupMovieList();		
+	}
 }
