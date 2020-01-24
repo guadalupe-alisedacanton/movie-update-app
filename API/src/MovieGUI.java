@@ -1,5 +1,7 @@
-import java.awt.BorderLayout;
 import java.awt.Color;
+import java.util.List;
+
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -18,6 +20,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
@@ -50,11 +53,13 @@ public class MovieGUI {
 	private JButton back;
 	private JLabel background;
 	private static MovieGUI window;
+	private JLabel movieTitle;
+	private List<Movie> movies;
 
 
 	/**
 	 * Launch the application.
-	 */
+	 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -68,11 +73,12 @@ public class MovieGUI {
 			}
 		});
 	}
-
+	*/
 	/**
 	 * Create the application.
 	 */
-	public MovieGUI() {
+	public MovieGUI(List<Movie> movies) {
+		this.movies = movies;
 		initialize();
 	}
 
