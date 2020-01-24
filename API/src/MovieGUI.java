@@ -82,6 +82,9 @@ public class MovieGUI {
 		initialize();
 	}
 
+	public void start() {
+		this.frame.setVisible(true);
+	}
 	/**
 	 * Initialize the contents of the frame.
 	 */
