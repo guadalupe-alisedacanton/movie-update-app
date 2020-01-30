@@ -286,8 +286,8 @@ public class Main {
 		  StringBuffer responseContent = new StringBuffer();
 	    
 		  try {
-			  String nowPlaying = "/3/movie/" + movieId;
-			  URL url = new URL(baseUrl + nowPlaying + "?api_key=" + apiKey);     
+			  String addedURL = "/3/movie/" + movieId;
+			  URL url = new URL(baseUrl + addedURL + "?api_key=" + apiKey);     
 			  connection = (HttpURLConnection) url.openConnection();
 
 			  //Request setup
@@ -321,7 +321,7 @@ public class Main {
 			  //System.out.println(output.toString(4));
 			  //results is just the movies and their info
 			  
-			  runtime = output.getString("runtime");
+			  runtime = "" + output.getInt("runtime");
 			  
 			  
 		  } catch (MalformedURLException e) {
@@ -347,8 +347,8 @@ public class Main {
 		  StringBuffer responseContent = new StringBuffer();
 	    
 		  try {
-			  String nowPlaying = "/3/movie/" + movieId + "/similar";
-			  URL url = new URL(baseUrl + nowPlaying + "?api_key=" + apiKey);     
+			  String addedURL = "/3/movie/" + movieId + "/similar";
+			  URL url = new URL(baseUrl + addedURL + "?api_key=" + apiKey);     
 			  connection = (HttpURLConnection) url.openConnection();
 
 			  //Request setup
@@ -382,8 +382,12 @@ public class Main {
 			  //System.out.println(output.toString(4));
 			  //results is just the movies and their info
 			  JSONArray movieInfoArr = output.getJSONArray("results");
-			  similarMovie = movieInfoArr.getJSONObject(0).getString("runtime");
-			  
+			  for (int i = 0; i < movieInfoArr.length(); i++) {
+				  if (i == 0) {
+					  similarMovie = movieInfoArr.getJSONObject(0).getString("title");
+
+				  }
+			  }
 			  
 		  } catch (MalformedURLException e) {
 			  e.printStackTrace();
@@ -453,7 +457,7 @@ public class Main {
 			  String title = movieInfoArr.getJSONObject(i).getString("title");
 			  String overview = movieInfoArr.getJSONObject(i).getString("overview");
 			  JSONArray movieGenreIDs = movieInfoArr.getJSONObject(i).getJSONArray("genre_ids");
-			  String movieId = movieInfoArr.getJSONObject(i).getString("id");
+			  String movieId = "" + movieInfoArr.getJSONObject(i).getInt("id");
 			  String runtime = fetchRuntime(movieId);  //runtime is in minutes
 			  String releaseDate = movieInfoArr.getJSONObject(i).getString("release_date"); //format of release date is: "YYYY-MM-DD"
 			  String similarMovie = fetchSimilarMovie(movieId);
