@@ -1,0 +1,16 @@
+
+//      HttpPost post = new HttpPost(baseUrl + addedUrl + "?api_key=" + key);
+//      post.setHeader("Accept", "application/json");
+//      post.setHeader("Content-type", "application/json");
+//      post.setHeader("Authorization", "api_key=" + key);
+     
+      //connection.addRequestProperty("Accept",  "application/json");
+      //connection.addRequestProperty("Content-type",  "application/json");
+      
+//      HttpGet request = new HttpGet(baseUrl + addedUrl + "?api_key=" + key);
+//      request.setHeader("Content-type", "application/json");
+      
+      //request.addHeader("Accept", "application/json");
+      //request.addHeader("Content-type", "application/json");
+      
+//      System.out.println(request.getRequestLine());
