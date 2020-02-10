@@ -7,7 +7,17 @@ public class Controller {
 		this.mainCode = mainCode;
 	}
 	
-	public List<Movie> fetchMovieList() {
-		return mainCode.setupMovieList();		
+	public List<Movie> fetchNowPlayingList() {
+		return mainCode.setupNowPlayingList();		
 	}
+	
+	public List<Movie> fetchUpcomingList() {
+		return mainCode.setupUpcomingList();
+	}
+	
+	/*
+	 * public List<Movie> fetchUpcomingList() {
+	 * 		return mainCode.setupUpcomingList();
+	 * }
+	 */
 }

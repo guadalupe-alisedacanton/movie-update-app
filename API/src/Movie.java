@@ -22,19 +22,15 @@ public class Movie {
 	public String getGenre() {
 		return genre;
 	}
-	
 	public String getSummary() {
 		return summary;
 	}
-	
 	public String getReleaseDate() {
 		return releaseDate;
 	}
-	
 	public String getRuntime() {
 		return runtime;
 	}
-	
 	public String getSimilarMovie() {
 		return similarMovie;
 	}

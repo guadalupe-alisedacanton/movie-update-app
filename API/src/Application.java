@@ -12,9 +12,12 @@ public class Application {
 					Main main = new Main();
 					Controller controller = new Controller(main);
 					
-					List<Movie> movies = controller.fetchMovieList();
+					List<Movie> nowPlayingMovies = controller.fetchNowPlayingList(); 
+					List<Movie> upcomingMovies = controller.fetchUpcomingList();
+					//change line above to: List<Movie> nowPlayingMovies = controller.fetchNowPlayingList();
+					// List<Movie> upcomingMovies = controller.fetchUpcomingList();
 					
-					MovieGUI window = new MovieGUI(movies);
+					MovieGUI window = new MovieGUI(nowPlayingMovies, upcomingMovies);
 					window.start();
 				} catch (Exception e) {
 					e.printStackTrace();

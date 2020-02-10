@@ -400,7 +400,7 @@ public class Main {
 		  return similarMovie;
 	  	}  
 
-  public ArrayList<Movie> setupMovieList() {
+  public ArrayList<Movie> setupNowPlayingList() {
 
 	//List of now playing movies and upcoming movies	  
 	  ArrayList<Movie> movies = new ArrayList<>();
@@ -484,6 +484,93 @@ public class Main {
 	  
 	  return movies;
   	}  
+  
+  public ArrayList<Movie> setupUpcomingList() {
+
+
+		//List of now playing movies and upcoming movies	  
+		  ArrayList<Movie> movies = new ArrayList<>();
+		  HashMap<String, Integer> genreIds = fetchGenre();
+		  
+		  String apiKey = "709c731348589bc63268f0736fe09578";	
+		  String baseUrl = "https://api.themoviedb.org";
+	    
+		  BufferedReader reader;
+		  String line;
+		  StringBuffer responseContent = new StringBuffer();
+	    
+		  try {
+			  String nowPlaying = "/3/movie/upcoming";
+			  URL url = new URL(baseUrl + nowPlaying + "?api_key=" + apiKey);     
+			  connection = (HttpURLConnection) url.openConnection();
+
+			  //Request setup
+			  connection.setRequestMethod("GET");
+			  connection.setConnectTimeout(5000);
+			  connection.setReadTimeout(5000);
+	      
+			  int status = connection.getResponseCode();   //System.out.println(status);
+	      
+			  if (status > 299) {
+				  
+				  reader = new BufferedReader(new InputStreamReader(connection.getErrorStream()));
+				  while ((line = reader.readLine()) != null) {
+					  responseContent.append(line);
+					  
+				  }
+				  reader.close();
+	        
+			  } else {
+	    	  
+				  reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+				  while ((line = reader.readLine()) != null) {
+					  responseContent.append(line);
+	          
+				  }
+				  reader.close();
+				  
+			  }
+			  //entire output
+			  JSONObject output = new JSONObject(responseContent.toString());
+			  //System.out.println(output.toString(4));
+			  //results is just the movies and their info
+			  JSONArray movieInfoArr = output.getJSONArray("results");
+		
+			  //looks through the movies and takes out the title, overview, and genre of each movie
+			  //creates a new Movie object and adds it to a list of Movies.
+			  for (int i = 0; i < movieInfoArr.length(); i++) {
+				  
+				  String title = movieInfoArr.getJSONObject(i).getString("title");
+				  String overview = movieInfoArr.getJSONObject(i).getString("overview");
+				  JSONArray movieGenreIDs = movieInfoArr.getJSONObject(i).getJSONArray("genre_ids");
+				  String movieId = "" + movieInfoArr.getJSONObject(i).getInt("id");
+				  String runtime = fetchRuntime(movieId);  //runtime is in minutes
+				  String releaseDate = movieInfoArr.getJSONObject(i).getString("release_date"); //format of release date is: "YYYY-MM-DD"
+				  String similarMovie = fetchSimilarMovie(movieId);
+				  String genre;
+				  for (String key : genreIds.keySet()) {
+					  if (movieGenreIDs.getInt(0) == genreIds.get(key)) {
+						  genre = key;
+						  movies.add(new Movie(title, genre, overview, releaseDate, runtime, similarMovie));
+						  
+					  }
+				  
+				  }
+				  //System.out.println(movies.get(0).getGenre());	  
+			 
+			  }
+			  
+		  } catch (MalformedURLException e) {
+			  e.printStackTrace();
+		  } catch (IOException e) {
+			  e.printStackTrace();
+		  } finally {
+			  connection.disconnect();
+		  }
+		  
+		  return movies;
+	  	}
   	
 }
+
 

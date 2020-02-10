@@ -49,7 +49,8 @@ public class MovieGUI {
 	private JLabel background;
 	private static MovieGUI window;
 	private JLabel movieTitle;
-	private List<Movie> movies;
+	private List<Movie> nowPlaying;
+	private List<Movie> upcoming;
 
 
 	/**
@@ -72,8 +73,9 @@ public class MovieGUI {
 	/**
 	 * Create the application.
 	 */
-	public MovieGUI(List<Movie> movies) {
-		this.movies = movies;
+	public MovieGUI(List<Movie> nowPlaying, List<Movie> upcoming) {
+		this.nowPlaying = nowPlaying;
+		this.upcoming = upcoming;
 		initialize();
 	}
 
@@ -105,9 +107,9 @@ public class MovieGUI {
 		moviesList.setRowHeight(83);
 		
 		tableModel.addColumn("Movies!");
-		tableModel.setRowCount(movies.size());
-		for (int i = 0; i < movies.size(); i++) {
-			tableModel.setValueAt("   " + movies.get(i).getTitle() + ", " + movies.get(i).getGenre() + ", " + movies.get(i).getReleaseDate(), i, 0);
+		tableModel.setRowCount(nowPlaying.size());
+		for (int i = 0; i < nowPlaying.size(); i++) {
+			tableModel.setValueAt("   " + nowPlaying.get(i).getTitle() + ", " + nowPlaying.get(i).getGenre() + ", " + nowPlaying.get(i).getReleaseDate(), i, 0);
 		}
 
 		visibleHome();
@@ -117,13 +119,13 @@ public class MovieGUI {
 		temp.disable();
 		temp.setVisible(false);
 		
-		mainTitle.setText(movies.get(rowIndex).getTitle());
+		mainTitle.setText(nowPlaying.get(rowIndex).getTitle());
 		
 		frame.getContentPane().add(mainTitle);
 		
 		moviesList.setVisible(false);
-		generalInfo = new JLabel("Genre: " + movies.get(rowIndex).getGenre() + " | Release Date: " + movies.get(rowIndex).getReleaseDate() + 
-				" | Movie Length: " + movies.get(rowIndex).getRuntime() + " min");
+		generalInfo = new JLabel("Genre: " + nowPlaying.get(rowIndex).getGenre() + " | Release Date: " + nowPlaying.get(rowIndex).getReleaseDate() + 
+				" | Movie Length: " + nowPlaying.get(rowIndex).getRuntime() + " min");
 		generalInfo.setHorizontalAlignment(SwingConstants.CENTER);
 		generalInfo.setFont(new Font("Yu Gothic", Font.PLAIN, 25));
 		generalInfo.setBounds(100, 32, 800, 250);
@@ -137,7 +139,7 @@ public class MovieGUI {
 		frame.getContentPane().add(summary);
 		summary.setVisible(true);
 		
-		summaryInfo = new JTextArea(movies.get(rowIndex).getSummary());
+		summaryInfo = new JTextArea(nowPlaying.get(rowIndex).getSummary());
 //		summaryInfo.setHorizontalAlignment(SwingConstants.LEFT);
 		summaryInfo.setFont(new Font("Yu Gothic", Font.PLAIN, 25));
 		summaryInfo.setBounds(100, 290, 800, 200);
@@ -154,7 +156,7 @@ public class MovieGUI {
 		frame.getContentPane().add(suggestions);
 		suggestions.setVisible(true);
 
-		suggestionList = new JTextArea(movies.get(rowIndex).getSimilarMovie());
+		suggestionList = new JTextArea(nowPlaying.get(rowIndex).getSimilarMovie());
 		suggestionList.setFont(new Font("Yu Gothic", Font.PLAIN, 25));
 		suggestionList.setBounds(100, 580, 800, 400);
 		frame.getContentPane().add(suggestionList);
